@@ -1,18 +1,13 @@
 installation:<br>
-first:<br>
-    read this page and do the instructions:<br>
-    https://devmarketer.io/learn/setup-laravel-project-cloned-github-com
-<br>second:<br>
-    install passport on application:  php artisan passport:install <br>
-3th:<br>
-    config your database in .env file<br>
-4th:<br>
-    migrate the application except books table and rating table<br>
-5th:<br>
-    migrate the book and rating table<br>
-6th:<br>
-    to fill your database with test data,run :    php artisan db:seed<br>
-7th:<br>
-    create a personal client by using:    php artisan passport:client --personal<br>
+1: clone the project and cd to project
+2: run => composer install
+3: run => cp .env.example .env
+4: config your database in both of .env file
+5:run => php artisan key:generate
+6:run => php artisan migrate
+7:run => php artisan db:seed
+8:run => php artisan passport:install
+9:run => php artisan passport:client --personal
+10: now you can run application:)
 
     
