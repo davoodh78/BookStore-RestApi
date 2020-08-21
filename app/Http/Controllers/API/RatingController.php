@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Book;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\RatingResource;
 use App\Rating;
 use App\User;
 use Illuminate\Http\Request;
@@ -14,7 +15,7 @@ class RatingController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
     public function index()
     {
