@@ -18,7 +18,7 @@ class RatingController extends Controller
      */
     public function index()
     {
-        return response()->json(Rating::all());
+        return RatingResource::collection(Rating::all());
     }
 
     /**
