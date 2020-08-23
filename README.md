@@ -1,4 +1,4 @@
-installation:<br>
+# installation:<br>
 1: clone the project and cd to project <br>
 2: run => composer install <br>
 3: run => cp .env.example .env <br>
