@@ -17,4 +17,4 @@ clone the project and cd to project<br>
 9:run =><br>
 ```php artisan passport:client --personal``` <br>
 10: now you can run application:)
-```
+
