@@ -34,16 +34,11 @@ class RatingController extends Controller
             "rate" => "required|integer|between:1,5",
             "book" => "required|exists:books,id"
         ]);
-        $book1 = Rating::where('user_id',Auth::user()->getAuthIdentifier())
-            ->where('book_id',$request->book)
-            ->where('rate',$request->rate)->count();
-        if($book1 == 1){
+        if($this->hasVoted($request)){
             return response("شما قبلا زای داده اید");
         }
-        $book1 = Rating::where('user_id',Auth::user()->getAuthIdentifier())
-            ->where('book_id',$request->book)->count();
-        if ($book1 > 0){
-            $rating1 = Rating::where('user_id',Auth::user()->getAuthIdentifier())
+        if ($this->changeVote($request)){
+            Rating::where('user_id',Auth::user()->getAuthIdentifier())
                 ->where('book_id',$request->book)->update(["rate"=> $request->rate]);
             return response("امتیاز شما با موفقیت عوض شد");
         }
@@ -89,6 +84,23 @@ class RatingController extends Controller
     {
         $rating->delete();
         return response("امتیاز حذف شد");
+
+    }
+    public function hasVoted(Request $request){
+        $book1 = Rating::where('user_id',Auth::user()->getAuthIdentifier())
+            ->where('book_id',$request->book)
+            ->where('rate',$request->rate)->count();
+        if ($book1 == 1)
+            return true;
+        return false;
+    }
+    public function changeVote(Request $request){
+        $book1 = Rating::where('user_id',Auth::user()->getAuthIdentifier())
+            ->where('book_id',$request->book)->count();
+        if ($book1 > 0)
+            return true;
+        return false;
+
 
     }
 }
