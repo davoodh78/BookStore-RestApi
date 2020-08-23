@@ -35,24 +35,16 @@ class BookController extends Controller
             'title' => "required",
             "price" => "required|integer",
             "quantity" => "required|integer",
-			"author" => "required|integer",
-            "publisher" => "required|integer",
-            "warehouse" => "required|integer"
+            "author" => "required|exists:authors,id",
+            "publisher" => "required|exists:publishers,id",
+            "warehouse" => "required|exists:warehouses,id"
         ]);
-
-        $b = new Book;
-        $b->title = $request->title;
-        $b->price = $request->price;
-        $a = Author::find($request->author);
-        $b->author()->associate($a);
-        $p = Publisher::find($request->publisher);
-        $b->publisher()->associate($p);
-        $w = Warehouse::find($request->warehouse);
-        $b->warehouse()->associate($w);
-        $b->quantity = $request->quantity;
-        $b->save();
-        return new BookResource($b);
-
+        $book = new Book($request->all());
+        $book->author()->associate($request->author);
+        $book->publisher()->associate($request->publisher);
+        $book->warehouse()->associate($request->warehouse);
+        $book->save();
+        return new BookResource($book);
     }
 
     /**
@@ -75,14 +67,12 @@ class BookController extends Controller
      */
     public function update(Request $request, Book $book)
     {
-        if(! is_null($request->title))
-            $book->title = $request->title;
-        if(! is_null($request->price))
-            $book->price = $request->price;
-        if(! is_null($request->quantity))
-            $book->quantity = $request->quantity;
-        $book->save();
-        return new BookResource($book);
+        $request->validate([
+            "price" => "integer",
+            "quantity" => "integer",
+        ]);
+        Book::where('id',$book->id)->update($request->all());
+        return response("کتاب با موفقیت ویرایش شد.");
     }
 
     /**

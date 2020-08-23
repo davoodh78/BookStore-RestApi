@@ -32,17 +32,14 @@ class RatingController extends Controller
     {
         $request->validate([
             "rate" => "required|integer|between:1,5",
-            "book" => "required"
+            "book" => "required|exists:books,id"
         ]);
-        // در صورتی که کاربر با همین امتیاز به این کتاب رای داده باشد این دستورات اجرا میشوند.
         $book1 = Rating::where('user_id',Auth::user()->getAuthIdentifier())
             ->where('book_id',$request->book)
             ->where('rate',$request->rate)->count();
         if($book1 == 1){
             return response("شما قبلا زای داده اید");
         }
-        //---------------------------------------------------------------------------
-        // در صورتی که امتیاز کاربر به این کتاب عوض شده باشد این دستورات اجرا می شوند
         $book1 = Rating::where('user_id',Auth::user()->getAuthIdentifier())
             ->where('book_id',$request->book)->count();
         if ($book1 > 0){
@@ -50,18 +47,11 @@ class RatingController extends Controller
                 ->where('book_id',$request->book)->update(["rate"=> $request->rate]);
             return response("امتیاز شما با موفقیت عوض شد");
         }
-        //-----------------------------------------------------------------------------
-        // اگر کاربر بخواهد برای اولین بار به این کتاب امتیاز بدهد این دستورات اجرا می شوند.
-        $rating = new Rating;
-        $book = Book::find($request->book);
-        $rating->book()->associate($book);
+        $rating = new Rating($request->all());
+        $rating->book()->associate($request->book);
         $rating->user()->associate(Auth::user());
-        $rating->rate = $request->rate;
         $rating->save();
         return response("رای شما با موفقیت ثبت شد.");
-        //---------------------------------------------------------------------------
-
-
     }
 
     /**

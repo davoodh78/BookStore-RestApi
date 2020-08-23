@@ -29,11 +29,8 @@ class PublisherController extends Controller
         $request->validate([
             'name' => "required",
         ]);
-        $publisher = new Publisher;
-        $publisher->name = $request->name;
-        $publisher->address = $request->address;
+        $publisher = new Publisher($request->all());
         $publisher->save();
-
     }
 
     /**
@@ -56,11 +53,7 @@ class PublisherController extends Controller
      */
     public function update(Request $request, Publisher $publisher)
     {
-        if(! is_null($request->name))
-            $publisher->name = $request->name;
-        if(! is_null($request->address))
-            $publisher->address = $request->address;
-        $publisher->save();
+        Publisher::where('id',$publisher->id)->update($request->all());
         return response('رکورد با موفقیت ویرایش شد');
     }
 

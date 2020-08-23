@@ -30,12 +30,10 @@ class AuthorController extends Controller
             'firstname' => "required|alpha",
             "lastname" => "required|alpha"
         ]);
-        $author = new Author;
-        $author -> firstname = $request -> firstname;
-        $author -> lastname = $request -> lastname;
+        $author = new Author($request->all());
         $author ->save();
     }
-    
+
 
     /**
      * Display the specified resource.
@@ -57,11 +55,11 @@ class AuthorController extends Controller
      */
     public function update(Request $request, Author $author)
     {
-        if(! is_null($request->firstname))
-            $author->firstname = $request->firstname;
-        if(! is_null($request->lastname))
-            $author->lastname = $request->lastname;
-        $author->save();
+        $request->validate([
+            'firstname' => "required|alpha",
+            "lastname" => "required|alpha"
+        ]);
+        Author::where('id',$author->id)->update($request->all());
         return response('رکورد با موفقیت ویرایش شد');
     }
 
