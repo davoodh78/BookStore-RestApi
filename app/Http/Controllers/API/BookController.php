@@ -34,7 +34,10 @@ class BookController extends Controller
         $request->validate([
             'title' => "required",
             "price" => "required|integer",
-            "quantity" => "required|integer"
+            "quantity" => "required|integer",
+			"author" => "required|integer",
+            "publisher" => "required|integer",
+            "warehouse" => "required|integer"
         ]);
 
         $b = new Book;
