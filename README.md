@@ -9,5 +9,9 @@
 8:run => php artisan passport:install <br>
 9:run => php artisan passport:client --personal <br>
 10: now you can run application:)
-
+```
+git status
+git add
+git commit
+```
     
