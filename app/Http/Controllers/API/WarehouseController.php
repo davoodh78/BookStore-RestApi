@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
-use App\Publisher;
+use App\Http\Requests\WarehouseRequest;
 use App\Warehouse;
 use Illuminate\Http\Request;
 
@@ -16,7 +16,7 @@ class WarehouseController extends Controller
      */
     public function index()
     {
-        //
+        return response()->json(Warehouse::all());
     }
 
     /**
@@ -25,26 +25,11 @@ class WarehouseController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(WarehouseRequest $request)
     {
-        $request->validate([
-            'name' => "required",
-        ]);
-        $publisher = new Warehouse;
-        $publisher->name = $request->name;
-        $publisher->address = $request->address;
-        $publisher->save();
-    }
+        $warehouse = new Warehouse($request->all());
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Warehouse  $warehouse
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Warehouse $warehouse)
-    {
-        //
+        $warehouse->save();
     }
 
     /**
@@ -54,9 +39,11 @@ class WarehouseController extends Controller
      * @param  \App\Warehouse  $warehouse
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Warehouse $warehouse)
+    public function update(WarehouseRequest $request, Warehouse $warehouse)
     {
-        //
+        Warehouse::find($warehouse->id)->update($request->all());
+
+        return response('رکورد با موفقیت ویرایش شد.');
     }
 
     /**
@@ -67,6 +54,8 @@ class WarehouseController extends Controller
      */
     public function destroy(Warehouse $warehouse)
     {
-        //
+        $warehouse->delete();
+
+        return response('انبار با موفقیت حذف شد.');
     }
 }

@@ -28,6 +28,7 @@ Route::middleware('auth:api')->group(function (){
     Route::apiResource('publishers','API\PublisherController');
     Route::apiResource('books','API\BookController');
     Route::apiResource('ratings','API\RatingController');
+    Route::apiResource('warehouses','API\WarehouseController');
 
 });
 

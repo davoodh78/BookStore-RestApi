@@ -3,8 +3,6 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
-use phpDocumentor\Reflection\DocBlock\Tags\Author;
-use Ramsey\Uuid\Type\Integer;
 
 class BookResource extends JsonResource
 {
@@ -14,21 +12,16 @@ class BookResource extends JsonResource
      * @param  \Illuminate\Http\Request  $request
      * @return array
      */
-    public function toArray($request)
+    public function toArray($request) : array
     {
-        if($this->quantity > 0)
-            $status = "موجود";
-        else
-            $status = "ناموجود";
-        $a = round($this->ratings->avg('rate'),1);
         return [
-          'id' => $this->id,
+            'id' => $this->id,
             'title' => $this->title,
             'price' => $this->price,
-            'rate' => $a,
+            'rate' => round($this->ratings->avg('rate'),1),
             'author' => new AuthorResource($this->author),
             'publisher' => new PublisherResource($this->publisher),
-            'status' =>$status
+            'status' => $this->quantity > 0 ? 'موجود' : 'ناموجود'
 
 
         ];

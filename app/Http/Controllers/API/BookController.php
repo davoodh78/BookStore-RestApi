@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Author;
 use App\Book;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\BookRequest;
 use App\Http\Resources\BookResource;
 use App\Publisher;
 use App\Warehouse;
@@ -29,21 +30,16 @@ class BookController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return BookResource
      */
-    public function store(Request $request)
+    public function store(BookRequest $request)
     {
-        $request->validate([
-            'title' => "required",
-            "price" => "required|integer",
-            "quantity" => "required|integer",
-            "author" => "required|exists:authors,id",
-            "publisher" => "required|exists:publishers,id",
-            "warehouse" => "required|exists:warehouses,id"
-        ]);
+
         $book = new Book($request->all());
+
         $book->author()->associate($request->author);
         $book->publisher()->associate($request->publisher);
         $book->warehouse()->associate($request->warehouse);
         $book->save();
+
         return new BookResource($book);
     }
 
@@ -71,8 +67,10 @@ class BookController extends Controller
             "price" => "integer",
             "quantity" => "integer",
         ]);
-        Book::where('id',$book->id)->update($request->all());
-        return response("کتاب با موفقیت ویرایش شد.");
+
+        Book::find($book->id)->update($request->all());
+
+        return response('کتاب با موفقیت ویرایش شد.');
     }
 
     /**
@@ -85,6 +83,7 @@ class BookController extends Controller
     public function destroy(Book $book)
     {
         $book->delete();
+
         return response('کتاب با موفقیت حذف شد');
     }
 }

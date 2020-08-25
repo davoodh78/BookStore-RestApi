@@ -4,6 +4,8 @@ namespace App\Http\Controllers\API;
 
 use App\Author;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\AuthorRequest;
+use App\Http\Resources\AuthorResource;
 use Illuminate\Http\Request;
 
 class AuthorController extends Controller
@@ -11,11 +13,11 @@ class AuthorController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
     public function index()
     {
-        return response()->json(Author::all());
+        return AuthorResource::collection(Author::all());
     }
 
     /**
@@ -24,12 +26,8 @@ class AuthorController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(AuthorRequest $request)
     {
-        $request->validate([
-            'firstname' => "required|alpha",
-            "lastname" => "required|alpha"
-        ]);
         $author = new Author($request->all());
         $author ->save();
     }
@@ -39,11 +37,11 @@ class AuthorController extends Controller
      * Display the specified resource.
      *
      * @param  \App\Author  $author
-     * @return \Illuminate\Http\Response
+     * @return AuthorResource
      */
     public function show(Author $author)
     {
-        return response()->json($author);
+        return new AuthorResource($author);
     }
 
     /**
@@ -56,10 +54,12 @@ class AuthorController extends Controller
     public function update(Request $request, Author $author)
     {
         $request->validate([
-            'firstname' => "required|alpha",
-            "lastname" => "required|alpha"
+            "firstname" => "alpha",
+            "lastname" => "alpha"
         ]);
-        Author::where('id',$author->id)->update($request->all());
+
+        Author::find($author->id)->update($request->all());
+
         return response('رکورد با موفقیت ویرایش شد');
     }
 
@@ -72,6 +72,7 @@ class AuthorController extends Controller
     public function destroy(Author $author)
     {
         $author->delete();
-        return response('`نویسنده با موفقیت حذف شد.`');
+
+        return response('نویسنده با موفقیت حذف شد.');
     }
 }

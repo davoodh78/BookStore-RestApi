@@ -17,18 +17,18 @@ class CreateBooksTable extends Migration
             $table->id();
             $table->string('title',50);
             $table->integer('price');
-            $table->foreignId("author_id")
-                ->references("id")
+            $table->foreignId('author_id')
+                ->references('id')
                 ->on('authors')
-                ->onDelete("cascade");
-            $table->foreignId("publisher_id")
-                ->references("id")
-                ->on("publishers")
-                ->onDelete("cascade");
-            $table->foreignId("warehouse_id")
-                ->references("id")
-                ->on("warehouses")
-                ->onDelete("cascade");
+                ->onDelete('cascade');
+            $table->foreignId('publisher_id')
+                ->references('id')
+                ->on('publishers')
+                ->onDelete('cascade');
+            $table->foreignId('warehouse_id')
+                ->references('id')
+                ->on('warehouses')
+                ->onDelete('cascade');
             $table->smallInteger('quantity');
             $table->timestamps();
         });

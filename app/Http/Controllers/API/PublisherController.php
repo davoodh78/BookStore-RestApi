@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\PublisherRequest;
+use App\Http\Resources\PublisherResource;
 use App\Publisher;
 use Illuminate\Http\Request;
 
@@ -11,37 +13,37 @@ class PublisherController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
     public function index()
     {
-        return response()->json(Publisher::all());
+        return PublisherResource::collection(Publisher::all());
     }
 
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return Publisher
      */
-    public function store(Request $request)
+    public function store(PublisherRequest $request)
     {
-        $request->validate([
-            'name' => "required",
-        ]);
         $publisher = new Publisher($request->all());
+
         $publisher->save();
+
+
     }
 
     /**
      * Display the specified resource.
      *
      * @param  \App\Publisher  $publisher
-     * @return \Illuminate\Http\Response
+     * @return PublisherResource
      */
     public function show(Publisher $publisher)
     {
-        return response()->json($publisher);
+        return new PublisherResource($publisher);
     }
 
     /**
@@ -53,8 +55,9 @@ class PublisherController extends Controller
      */
     public function update(Request $request, Publisher $publisher)
     {
-        Publisher::where('id',$publisher->id)->update($request->all());
-        return response('رکورد با موفقیت ویرایش شد');
+        Publisher::find($publisher->id)->update($request->all());
+
+        return response('رکورد با موفقیت ویرایش شد.');
     }
 
     /**
@@ -66,7 +69,8 @@ class PublisherController extends Controller
     public function destroy(Publisher $publisher)
     {
         $publisher->delete();
-        return response('`انتشارات با موفقیت حذف شد.`');
+
+        return response('انتشارات با موفقیت حذف شد.');
 
     }
 }
