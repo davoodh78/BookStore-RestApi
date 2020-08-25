@@ -60,19 +60,6 @@ class RatingController extends Controller
 
 
     /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Rating  $rating
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Rating $rating)
-    {
-        $rating->rate = $request->rate;
-        $rating->save();
-    }
-
-    /**
      * Remove the specified resource from storage.
      *
      * @param \App\Rating $rating
