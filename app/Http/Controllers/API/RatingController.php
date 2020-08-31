@@ -37,6 +37,7 @@ class RatingController extends Controller
             return response('شما قبلا امتیاز داده اید.');
         }
 
+
         if (Rating::changeVote($request))        //when you want to change your rating
         {
             Rating::where([
@@ -46,6 +47,7 @@ class RatingController extends Controller
 
             return response('.امتیاز شما با موفقیت عوض شد');
         }
+
 
         $rating = new Rating($request->all());
 

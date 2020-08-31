@@ -12,6 +12,7 @@ use phpseclib\Crypt\Hash;
 
 class AuthController extends Controller
 {
+
     public function register(Request $request){
         $validateData = $request->validate([
            "name" => "required|max:30",
@@ -29,12 +30,15 @@ class AuthController extends Controller
         $accessToken = $user->createToken('Laravel Password Grant Client')->accessToken;
         return response([
             'user' =>$user,
-            'accessToken'=> $accessToken
-        ]);
+            'accessToken'=> $accessToken,
+            'message' => 'شما با موفقیت ثبت نام شدید.',
+
+        ], 201);
 
 
 
     }
+
 
     public function login(Request $request){
         $validateDate = $request->validate([
@@ -45,8 +49,13 @@ class AuthController extends Controller
             return response(['message' => 'invalid user']);
         }
         $accessToken = Auth::user()->createToken('authToken')->accessToken;
-        return response(['user' => auth()->user(), 'accessToken' => $accessToken]);
+        return response([
+            'user' => auth()->user(),
+            'accessToken' => $accessToken,
+            'message' => 'شما با موفقیت وارد شدید.'
+        ] , 200);
     }
+
 
     public function logout(Request $request){
         $user = Auth::user()->token();

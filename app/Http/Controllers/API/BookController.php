@@ -70,7 +70,7 @@ class BookController extends Controller
 
         Book::find($book->id)->update($request->all());
 
-        return response('کتاب با موفقیت ویرایش شد.');
+        return response('کتاب با موفقیت ویرایش شد.',200);
     }
 
     /**
@@ -84,6 +84,6 @@ class BookController extends Controller
     {
         $book->delete();
 
-        return response('کتاب با موفقیت حذف شد');
+        return response('کتاب با موفقیت حذف شد' , 204);
     }
 }

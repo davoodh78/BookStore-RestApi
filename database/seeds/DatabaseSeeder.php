@@ -77,7 +77,7 @@ class DatabaseSeeder extends Seeder
                 "quantity" => 30
 
             ],[
-                "title" => 'چشم‌هایش',
+                'title' => 'چشم‌هایش',
                 'price' => 40000,
                 'publisher_id'=>1,
                 'author_id'=> 4,
@@ -89,16 +89,16 @@ class DatabaseSeeder extends Seeder
                 'price' => 50000,
                 'publisher_id'=>2,
                 'author_id'=> 5,
-                "warehouse_id" => 1,
-                "quantity" => 20
+                'warehouse_id' => 1,
+                'quantity' => 20
 
             ]
 
         ]);
         DB::table('users')->insert([
             'name' => 'admin',
-            'email' => "admin@admin.com",
-            "password" => \Illuminate\Support\Facades\Hash::make("12345678")
+            'email' => 'admin@admin.com',
+            'password' => \Illuminate\Support\Facades\Hash::make('12345678')
         ]);
     }
 }
